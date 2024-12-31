@@ -17,7 +17,8 @@ path = os.getcwd()
 path = os.path.dirname(path)
 # print("bulkdeal",path)
 sender = "algofarm014@gmail.com"
-receiver = "hardikagrawal0045@gmail.com"
+receiver = "surbhialgo2212@gmail.com"
+receiver2="hardikagrawal0045@gmail.com"
 context = ssl.create_default_context()
 email_password = "cead vlgq vxce xobs"
 listFO = pd.read_csv(path+"/python_scripts/FO_list.csv")
@@ -50,6 +51,7 @@ def email_strat(data):
             message["To"] = sender
             message["Subject"] = "Bulk analysis for {}".format(date.today().strftime("%Y-%m-%d"))
             smtp.sendmail(sender, receiver, message.as_string())
+            smtp.sendmail(sender, receiver2, message.as_string())
     except Exception as e:
         print(e)
 def nse_largedeals(mode="bulk_deals"):

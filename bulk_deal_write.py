@@ -13,15 +13,14 @@ import os
 
 warnings.filterwarnings("ignore")
 
-path = os.getcwd()
-path = os.path.dirname(path)
+path = os.path.dirname(os.path.realpath(__file__))
 # print("bulkdeal",path)
 sender = "algofarm014@gmail.com"
 receiver = "surbhialgo2212@gmail.com"
 receiver2="hardikagrawal0045@gmail.com"
 context = ssl.create_default_context()
 email_password = "cead vlgq vxce xobs"
-listFO = pd.read_csv(path+"/python_scripts/FO_list.csv")
+listFO = pd.read_csv(path+"/FO_list.csv")
 listFO.dropna(inplace=True)
 
 def email_strat(data):

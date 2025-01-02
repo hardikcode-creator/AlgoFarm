@@ -1,5 +1,5 @@
 import numpy as np
-from nsepython import *
+# from nsepythonserver import *
 
 import smtplib
 import ssl
@@ -22,7 +22,23 @@ context = ssl.create_default_context()
 email_password = "cead vlgq vxce xobs"
 listFO = pd.read_csv(path+"/FO_list.csv")
 listFO.dropna(inplace=True)
-
+curl_headers = ''' -H "authority: beta.nseindia.com" -H "cache-control: max-age=0" -H "dnt: 1" -H "upgrade-insecure-requests: 1" -H "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36" -H "sec-fetch-user: ?1" -H "accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" -H "sec-fetch-site: none" -H "sec-fetch-mode: navigate" -H "accept-encoding: gzip, deflate, br" -H "accept-language: en-US,en;q=0.9,hi;q=0.8" --compressed'''
+def nsefetch(payload):
+        if (("%26" in payload) or ("%20" in payload)):
+            encoded_url = payload
+        else:
+            encoded_url = urllib.parse.quote(payload, safe=':/?&=')
+        payload_var = 'curl -b cookies.txt "' + encoded_url + '"' + curl_headers + ''
+        try:
+            output = os.popen(payload_var).read()
+            output=json.loads(output)
+        except ValueError:  # includes simplejson.decoder.JSONDecodeError:
+            payload2 = "https://www.nseindia.com"
+            output2 = os.popen('curl -c cookies.txt "'+payload2+'"'+curl_headers+'').read()
+    
+            output = os.popen(payload_var).read()
+            output=json.loads(output)
+        return output
 def email_strat(data):
     if(len(data)>0):
         html = """
